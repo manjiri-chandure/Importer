@@ -21,8 +21,4 @@ public class StudentController {
         return ResponseEntity.ok(studentDtos);
     }
 
-    @GetMapping("/hellow")
-    public ResponseEntity<String> sayHellow(){
-        return ResponseEntity.ok("hellow meow");
-    }
 }

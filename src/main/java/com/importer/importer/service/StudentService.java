@@ -20,7 +20,7 @@ public class StudentService {
         String responce = "";
         for(StudentCreationDto studentCreationDto : studentCreationDtos){
             HttpHeaders headers = new HttpHeaders();
-            String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiUk9MRV9TVFVERU5UIiwic3ViIjoiU2FnYXIiLCJpYXQiOjE3MTI0MDQzMjEsImV4cCI6MTcxMjQxMTUyMX0.O8FOfWr2CxXOs28XlKHejwOblkiXUOqn24iYsb373rhYqI-M1hh7hq0xYyUZ96g46tyzgqdZ61CM-gHK_o2r8Q";
+            String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiT0ZGSUNFX0FETUlOIiwiVXNlcklkIjoxLCJzdWIiOiJnYW5lc2hwYXRlbCIsImlhdCI6MTcxMjg0NzE4NywiZXhwIjoxNzEyODU0Mzg3fQ.kFCj8gM2Iybt-CgJEYxS1QaKwBxKhOrYYd2wP2H9gQG33A6fL07Wss3woS9AwWUa1BvyYqrjITWzN3J_ZWAFfA";
             headers.add("Authorization", "Bearer "+ jwtToken );
             headers.setAccept(List.of(MediaType.APPLICATION_JSON));
 
