@@ -6,6 +6,7 @@ import com.importer.importer.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,11 +19,12 @@ public class StudentService {
 
     @Autowired
     private LogRepository logRepository;
+    @Transactional
     public String postAllStudents(List<StudentCreationDto> studentCreationDtos){
         StringBuilder responseBuilder = new StringBuilder();
         for(StudentCreationDto studentCreationDto : studentCreationDtos){
             HttpHeaders headers = new HttpHeaders();
-            String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiT0ZGSUNFX0FETUlOIiwiVXNlcklkIjoxLCJzdWIiOiJnYW5lc2hwYXRlbCIsImlhdCI6MTcxMzE3ODY2OSwiZXhwIjoxNzEzMTg1ODY5fQ.9vbbK4uk8ywBu13LvUHTPCmyksYjH92vfZXoDsl5sZRSpJLlIwAAziHizcQUeTBnKt24xuLg3WK7O5P_DCt6Yw";
+            String jwtToken = "eyJhbGciOiJIUzUxMiJ9.eyJSb2xlIjoiT0ZGSUNFX0FETUlOIiwiVXNlcklkIjoxLCJzdWIiOiJnYW5lc2hwYXRlbCIsImlhdCI6MTcxMzc2MjcyNiwiZXhwIjoxNzEzNzY5OTI2fQ.Ddi6x-SpAmi7_mBSw5mzjSEDl3LJcUnjLylAe1LYbC3-o3ur0a2bEEhwXcLQ7alOvdU4-OcH5_wLeywKDtPTcA";
             headers.add("Authorization", "Bearer "+ jwtToken );
             headers.setAccept(List.of(MediaType.APPLICATION_JSON));
             HttpEntity<StudentCreationDto> entity = new HttpEntity<StudentCreationDto>(studentCreationDto, headers);

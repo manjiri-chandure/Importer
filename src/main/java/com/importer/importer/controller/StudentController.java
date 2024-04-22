@@ -5,6 +5,7 @@ import com.importer.importer.dto.StudentDto;
 import com.importer.importer.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class StudentController {
     StudentService studentService;
 
     @PostMapping("/import_students")
+    @PreAuthorize("hasRole('ROLE_OFFICE_ADMIN')")
     public ResponseEntity<String> postAllStudent(@RequestBody List<StudentCreationDto> studentCreationDtos){
         String studentDtos = this.studentService.postAllStudents(studentCreationDtos);
         return ResponseEntity.ok(studentDtos);
