@@ -49,28 +49,16 @@ public class StudentService {
                 responseMessage = status.substring(status.indexOf(" ")+1);
                 responseBody = "Student Created Successfully";
 
-            } catch (HttpClientErrorException.BadRequest ex) {
-
-                status = ex.getStatusCode().toString();
-                statusCode = ex.getStatusCode().value();
-                responseMessage = status.substring(status.indexOf(" ")+1);
-                if(!ex.getResponseBodyAsString().isEmpty())
-                    responseBody = ex.getResponseBodyAsString();
-            } catch (HttpClientErrorException ex) {
+                responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage).append(" - ").append(responseBody).append(System.lineSeparator());
+                logRequest(studentCreationDto, statusCode, responseMessage + ": "+ responseBody);
+            }
+            catch (HttpClientErrorException ex) {
                 // Handle other 4xx errors
                 status = ex.getStatusCode().toString();
                 statusCode = ex.getStatusCode().value();
                 responseMessage = status.substring(status.indexOf(" ")+1);
-                if(!ex.getResponseBodyAsString().isEmpty())
+                if(!ex.getResponseBodyAsString().isEmpty()){
                     responseBody = ex.getResponseBodyAsString();
-
-            } catch (Exception ex) {
-                responseBuilder.append("Error: ").append(ex.getMessage()).append(System.lineSeparator());
-                statusCode = 500;
-                responseMessage = "Internal Server Error";
-            }
-            finally {
-                if(!responseBody.isEmpty()){
                     responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage).append(" - ").append(responseBody).append(System.lineSeparator());
                     logRequest(studentCreationDto, statusCode, responseMessage + ": "+ responseBody);
                 }
@@ -78,6 +66,13 @@ public class StudentService {
                     responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage);
                     logRequest(studentCreationDto, statusCode, responseMessage);
                 }
+
+            } catch (Exception ex) {
+                responseBuilder.append("Error: ").append(ex.getMessage()).append(System.lineSeparator());
+                statusCode = 500;
+                responseMessage = "Internal Server Error";
+                responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage);
+                logRequest(studentCreationDto, statusCode, responseMessage);
             }
         }
 
