@@ -4,8 +4,8 @@
 <mapper namespace="com.importer.importer.repository.LogRepository" >
 
     <insert id = "addLog" parameterType="map" useGeneratedKeys="true">
-        insert into log(student_name, gender, age, status_code, response_message)
-        values (#{scd.fullName}, #{scd.gender}, #{scd.age}, #{sc}, #{rm})
+        insert into log(student_name, gender, age, status_code, response_message, timestamp)
+        values (#{scd.fullName}, #{scd.gender}, #{scd.age}, #{sc}, #{rm}, #{tm})
     </insert>
 
 </mapper>

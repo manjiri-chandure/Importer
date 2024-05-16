@@ -14,6 +14,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -83,6 +85,7 @@ public class StudentService {
     }
 
     private void logRequest(StudentCreationDto studentCreationDto, int statusCode, String message) {
-        logRepository.addLog(studentCreationDto, statusCode, message);
+        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+        logRepository.addLog(studentCreationDto, statusCode, message, timeStamp);
     }
 }
