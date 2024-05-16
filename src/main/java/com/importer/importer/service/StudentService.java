@@ -25,14 +25,19 @@ public class StudentService {
     @Autowired
     private LogRepository logRepository;
     @Transactional
-    public String postAllStudents(List<StudentCreationDto> studentCreationDtos){
+    public String postAllStudents(List<StudentCreationDto> studentCreationDtos) {
         StringBuilder responseBuilder = new StringBuilder();
         HttpHeaders headers = new HttpHeaders();
-        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Jwt jwt;
+        if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof Jwt) {
+            jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } else {
+            throw new RuntimeException("Authentication principal is not instance of jwt");
+        }
         String jwtToken = jwt.getTokenValue();
-        headers.add("Authorization", "Bearer "+ jwtToken );
+        headers.add("Authorization", "Bearer " + jwtToken);
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        for(StudentCreationDto studentCreationDto : studentCreationDtos){
+        for (StudentCreationDto studentCreationDto : studentCreationDtos) {
 
             HttpEntity<StudentCreationDto> entity = new HttpEntity<StudentCreationDto>(studentCreationDto, headers);
 
@@ -46,23 +51,21 @@ public class StudentService {
                 responseBuilder.append("Response Body: ").append(responseEntity.getBody()).append(System.lineSeparator());
                 status = responseEntity.getStatusCode().toString();
                 statusCode = Integer.parseInt(status.substring(0, status.indexOf(" ")));
-                responseMessage = status.substring(status.indexOf(" ")+1);
+                responseMessage = status.substring(status.indexOf(" ") + 1);
                 responseBody = "Student Created Successfully";
 
                 responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage).append(" - ").append(responseBody).append(System.lineSeparator());
-                logRequest(studentCreationDto, statusCode, responseMessage + ": "+ responseBody);
-            }
-            catch (HttpClientErrorException ex) {
+                logRequest(studentCreationDto, statusCode, responseMessage + ": " + responseBody);
+            } catch (HttpClientErrorException ex) {
                 // Handle other 4xx errors
                 status = ex.getStatusCode().toString();
                 statusCode = ex.getStatusCode().value();
-                responseMessage = status.substring(status.indexOf(" ")+1);
-                if(!ex.getResponseBodyAsString().isEmpty()){
+                responseMessage = status.substring(status.indexOf(" ") + 1);
+                if (!ex.getResponseBodyAsString().isEmpty()) {
                     responseBody = ex.getResponseBodyAsString();
                     responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage).append(" - ").append(responseBody).append(System.lineSeparator());
-                    logRequest(studentCreationDto, statusCode, responseMessage + ": "+ responseBody);
-                }
-                else{
+                    logRequest(studentCreationDto, statusCode, responseMessage + ": " + responseBody);
+                } else {
                     responseBuilder.append("Response: ").append(statusCode).append(" ").append(responseMessage);
                     logRequest(studentCreationDto, statusCode, responseMessage);
                 }
