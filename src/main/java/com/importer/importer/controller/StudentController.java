@@ -16,7 +16,7 @@ public class StudentController {
     @Autowired
     StudentService studentService;
 
-    @PostMapping("/import_students")
+    @PostMapping("/students")
     @PreAuthorize("hasRole('ROLE_OFFICE_ADMIN')")
     public ResponseEntity<String> postAllStudent(@RequestBody List<StudentCreationDto> studentCreationDtos){
         String studentDtos = this.studentService.postAllStudents(studentCreationDtos);
