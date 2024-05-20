@@ -54,6 +54,6 @@ public class StudentService {
          Integer statusCode = logDto.getStatusCode();
          String responseMessage = logDto.getResponseMessage();
          String timeStamp = logDto.getTimeStamp();
-         logRepository.addLog(studentCreationDto, statusCode, responseMessage);
+         logRepository.addLog(studentCreationDto, statusCode, responseMessage, timeStamp);
     }
 }
