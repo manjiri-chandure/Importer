@@ -44,7 +44,7 @@ public class StudentService {
            }
     }
 
-    @KafkaListener(topics = "logs", groupId = "student", containerFactory = "kafkaListenerContainerFactory")
+    @KafkaListener(topics = "logs", groupId = "student-log", containerFactory = "kafkaListenerContainerFactory")
     public void updateLogs(LogDto logDto){
          StudentCreationDto studentCreationDto = new StudentCreationDto();
          studentCreationDto.setFullName(logDto.getFullName());

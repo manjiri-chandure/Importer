@@ -19,7 +19,7 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, LogDto> consumerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "student");
+        configProps.put(ConsumerConfig.GROUP_ID_CONFIG, "student-log");
         return new DefaultKafkaConsumerFactory<>(configProps, new StringDeserializer(),
           new JsonDeserializer<>(LogDto.class, false));
     }
