@@ -1,10 +1,9 @@
 package com.importer.importer.kafka.producer;
 
-import com.importer.importer.dto.StudentCreationDto;
+import com.importer.importer.dto.StudentCreationDtoByKafka;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.CompletableFuture;
@@ -13,10 +12,10 @@ import java.util.concurrent.CompletableFuture;
 public class MessageProducer {
 
     @Autowired
-    private KafkaTemplate<String, StudentCreationDto> kafkaTemplate;
+    private KafkaTemplate<String, StudentCreationDtoByKafka> kafkaTemplate;
 
-    public void sendMessageToTopic(StudentCreationDto studentInfo) {
-         CompletableFuture<SendResult<String, StudentCreationDto>> future =  kafkaTemplate.send("students", studentInfo);
+    public void sendMessageToTopic(StudentCreationDtoByKafka studentInfo) {
+         CompletableFuture<SendResult<String, StudentCreationDtoByKafka>> future =  kafkaTemplate.send("Student", studentInfo);
          future.whenComplete((result, ex)->{
              if(ex == null){
                  System.out.println("sent message = [" + studentInfo + "] with offset=["+ result.getRecordMetadata().offset() + "]");

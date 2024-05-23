@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 
 public class LogDto {
+  private Integer id;
   private String fullName;
   private String gender;
   private Integer age;

@@ -3,9 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.importer.importer.repository.LogRepository" >
 
-    <insert id = "addLog" parameterType="map" useGeneratedKeys="true">
+    <insert id = "addLog" parameterType="com.importer.importer.dto.LogDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         insert into log(student_name, gender, age, status_code, response_message, timestamp)
-        values (#{scd.fullName}, #{scd.gender}, #{scd.age}, #{sc}, #{rm}, #{tm})
+        values (#{ld.fullName}, #{ld.gender}, #{ld.age}, #{ld.statusCode}, #{ld.ResponseMessage}, #{ld.timeStamp})
     </insert>
 
 </mapper>
