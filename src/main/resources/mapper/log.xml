@@ -3,10 +3,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.importer.importer.repository.LogRepository" >
 
-    <insert id = "addLog" parameterType="com.importer.importer.dto.LogDto" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id = "addLog" parameterType="com.importer.importer.dto.LogDto" useGeneratedKeys="true" keyColumn="id" keyProperty="lid">
         insert into log(student_name, gender, age, status_code, response_message, timestamp)
         values (#{ld.fullName}, #{ld.gender}, #{ld.age}, #{ld.statusCode}, #{ld.ResponseMessage}, #{ld.timeStamp})
     </insert>
+
+    <update id="updateLog" parameterType="map">
+        UPDATE log
+        SET response_message = #{rm}, status_code = #{sc}
+        WHERE id = #{id}
+    </update>
 
 </mapper>
 

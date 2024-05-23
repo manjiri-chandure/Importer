@@ -7,6 +7,7 @@ import com.importer.importer.kafka.producer.MessageProducer;
 import com.importer.importer.mapstruct.StudentMapper;
 import com.importer.importer.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 
@@ -36,11 +37,9 @@ public class StudentService {
                    logDto.setResponseMessage("Status Pending...");
                    logDto.setTimeStamp(timeStamp);
                    logRepository.addLog(logDto);
-                   System.out.println("\n\n\n\n "+logDto);
                    StudentCreationDtoByKafka studentCreationDtoByKafka = this.studentMapper.toResponceDto(studentCreationDto);
-                   studentCreationDtoByKafka.setLid(logDto.getId());
+                   studentCreationDtoByKafka.setLid(logDto.getLid());
                    studentResponceDtos.add(studentCreationDtoByKafka);
-                   System.out.println("\n\n\n"+studentCreationDtoByKafka);
                }
                for(StudentCreationDtoByKafka studentCreationDtoByKafka : studentResponceDtos){
                    System.out.println("\n\n"+studentCreationDtoByKafka);
@@ -53,16 +52,12 @@ public class StudentService {
            }
     }
 
-//    @KafkaListener(topics = "logs", groupId = "student-log", containerFactory = "kafkaListenerContainerFactory")
-//    public void updateLogs(LogDto logDto){
-//         StudentCreationDto studentCreationDto = new StudentCreationDto();
-//         studentCreationDto.setFullName(logDto.getFullName());
-//         studentCreationDto.setGender(logDto.getGender());
-//         studentCreationDto.setAge(logDto.getAge());
-//
-//         Integer statusCode = logDto.getStatusCode();
-//         String responseMessage = logDto.getResponseMessage();
-//         String timeStamp = logDto.getTimeStamp();
-//         logRepository.addLog(studentCreationDto, statusCode, responseMessage, timeStamp);
-//    }
+    @KafkaListener(topics = "logs", groupId = "student-log", containerFactory = "kafkaListenerContainerFactory")
+    public void updateLogs(LogDto logDto){
+        System.out.println(logDto + "----------------------------------------------");
+        Integer lid = logDto.getLid();
+        String rm = logDto.getResponseMessage();
+        Integer sc = logDto.getStatusCode();
+         this.logRepository.updateLog(lid,rm ,sc);
+    }
 }

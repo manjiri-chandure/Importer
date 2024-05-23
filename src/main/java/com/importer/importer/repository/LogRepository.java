@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Param;
 
 public interface LogRepository {
     void addLog(@Param("ld")LogDto logDto);
+
+    void updateLog(@Param("id") Integer id, @Param("rm") String response_message, @Param("sc") Integer sc);
 }
 
 
