@@ -1,10 +1,13 @@
 package com.importer.importer.repository;
 
+import com.importer.importer.dto.LogDto;
 import com.importer.importer.dto.StudentCreationDto;
 import org.apache.ibatis.annotations.Param;
 
 public interface LogRepository {
-    void addLog(@Param("scd") StudentCreationDto studentCreationDto, @Param("sc") Integer statusCode, @Param("rm") String ResponseMessage);
+    void addLog(@Param("ld")LogDto logDto);
+
+    void updateLog(@Param("id") Integer id, @Param("rm") String response_message, @Param("sc") Integer sc);
 }
 
 
