@@ -4,6 +4,7 @@ import com.importer.importer.dto.StudentCreationDto;
 import com.importer.importer.dto.StudentDto;
 import com.importer.importer.repository.LogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,10 @@ public class StudentService {
 
     @Autowired
     private LogRepository logRepository;
+
+    @Value("${external.url}")
+    private String url;
+
     @Transactional
     public String postAllStudents(List<StudentCreationDto> studentCreationDtos) {
         StringBuilder responseBuilder = new StringBuilder();
@@ -46,7 +51,7 @@ public class StudentService {
             int statusCode = 0;
             String responseMessage = "";
             try {
-                ResponseEntity<String> responseEntity = new RestTemplate().exchange("http://localhost:8086/students", HttpMethod.POST, entity, String.class);
+                ResponseEntity<String> responseEntity = new RestTemplate().exchange(url, HttpMethod.POST, entity, String.class);
                 responseBuilder.append("Status Code: ").append(responseEntity.getStatusCode()).append(System.lineSeparator());
                 responseBuilder.append("Response Body: ").append(responseEntity.getBody()).append(System.lineSeparator());
                 status = responseEntity.getStatusCode().toString();
