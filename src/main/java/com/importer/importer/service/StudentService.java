@@ -29,7 +29,7 @@ public class StudentService {
 //    @Value("${external.url}")
 //    private String url;
     @Value("${student.service.baseurl}")
-    private String base_url;
+    private String baseUrlLocalPath;
 
 
     @Transactional
@@ -54,7 +54,7 @@ public class StudentService {
             int statusCode = 0;
             String responseMessage = "";
             try {
-                ResponseEntity<String> responseEntity = new RestTemplate().exchange(base_url, HttpMethod.POST, entity, String.class);
+                ResponseEntity<String> responseEntity = new RestTemplate().exchange("http://"+baseUrlLocalPath+"/students", HttpMethod.POST, entity, String.class);
                 responseBuilder.append("Status Code: ").append(responseEntity.getStatusCode()).append(System.lineSeparator());
                 responseBuilder.append("Response Body: ").append(responseEntity.getBody()).append(System.lineSeparator());
                 status = responseEntity.getStatusCode().toString();
