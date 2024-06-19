@@ -50,34 +50,20 @@
 			<artifactId>spring-boot-starter-oauth2-resource-server
 			</artifactId>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/secretsmanager -->
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>secretsmanager</artifactId>
-			<version>2.26.3</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/core -->
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>core</artifactId>
-			<version>2.10.26</version>
-			<type>pom</type>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/regions -->
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>regions</artifactId>
-			<version>2.26.4</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/software.amazon.awssdk/bom -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
 			<artifactId>bom</artifactId>
 			<version>2.5.25</version>
 			<type>pom</type>
-			<scope>runtime</scope>
+			<scope>import</scope>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-aws-secrets-manager-config -->
+		<!-- https://mvnrepository.com/artifact/io.awspring.cloud/spring-cloud-starter-aws-secrets-manager-config -->
+		<dependency>
+			<groupId>io.awspring.cloud</groupId>
+			<artifactId>spring-cloud-starter-aws-secrets-manager-config</artifactId>
+			<version>2.4.4</version>
+		</dependency>
 
 	</dependencies>
 
