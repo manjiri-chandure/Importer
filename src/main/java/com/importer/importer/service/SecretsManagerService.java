@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
@@ -18,24 +19,30 @@ import java.util.Map;
 
 @Service
 public class SecretsManagerService {
-    private final SecretsManagerClient secretsManagerClient;
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Value("${aws.region}")
+    private String region;
 
 
-    @Autowired
-    public SecretsManagerService(@Value("${aws.accessKeyId}") String accessKeyId,
-                                 @Value("${aws.secretKey}") String secretKey,
-                                 @Value("${aws.region}") String region) {
-        AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKeyId, secretKey);
-        this.secretsManagerClient = SecretsManagerClient.builder()
+//    @Autowired
+//    public SecretsManagerService(@Value("${aws.accessKeyId}") String accessKeyId,
+//                                 @Value("${aws.secretKey}") String secretKey,
+//                                 @Value("${aws.region}") String region) {
+//        AwsBasicCredentials awsCreds = AwsBasicCredentials.create(accessKeyId, secretKey);
+//        this.secretsManagerClient = SecretsManagerClient.builder()
+//                .region(Region.of(region))
+//                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+//                .build();
+//        this.objectMapper = new ObjectMapper();
+//
+//    }
+    public String getSecret(String secretName, String secretKey) {
+        SecretsManagerClient secretsManagerClient = SecretsManagerClient.builder()
                 .region(Region.of(region))
-                .credentialsProvider(StaticCredentialsProvider.create(awsCreds))
+                .credentialsProvider(DefaultCredentialsProvider.create())
                 .build();
-        this.objectMapper = new ObjectMapper();
-
-    }
-    public String getSecret(String secretName) {
         GetSecretValueRequest getSecretValueRequest = GetSecretValueRequest.builder()
                 .secretId(secretName)
                 .build();
@@ -48,7 +55,7 @@ public class SecretsManagerService {
             Map map = objectMapper.readValue(secretValue, Map.class);
 
             // Retrieve the value corresponding to the key "intern_jwt_secret"
-            jwtSecret = (String) map.get("intern_jwt_secret");
+            jwtSecret = (String) map.get(secretKey);
 
 
         } catch (IOException e) {

@@ -37,8 +37,8 @@ public class SecurityConfig {
   @Autowired
   private JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
-//  @Autowired
-//  private SecretsManagerService secretsManagerService;
+  @Autowired
+  private SecretsManagerService secretsManagerService;
 
   @Autowired
   private Environment environment;
@@ -51,9 +51,9 @@ public class SecurityConfig {
   @Bean
   public JwtDecoder jwtDecoder() {
 //    System.out.println(jwtSecret + "---------------------------------------------------------");
-//    String secretValue = secretsManagerService.getSecret("intern_manjiri_jwt_secret","intern_jwt_secret");
+    String secretValue = secretsManagerService.getSecret("intern_manjiri_jwt_secret","intern_jwt_secret");
 //    String dbPassword = secretsManagerService.getSecret("intern_manjiri_jwt_secret","db_password");
-    byte[] decodedKey = secret.getBytes();
+    byte[] decodedKey = secretValue.getBytes();
     SecretKey secretKey = new SecretKeySpec(decodedKey, "HMacSHA512");
 //    SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, "HmacSHA512")
     return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS512).build();
