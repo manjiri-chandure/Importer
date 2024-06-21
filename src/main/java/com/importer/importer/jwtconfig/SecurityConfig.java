@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,18 +37,23 @@ public class SecurityConfig {
   @Autowired
   private JwtAccessDeniedHandler jwtAccessDeniedHandler;
 
+//  @Autowired
+//  private SecretsManagerService secretsManagerService;
+
   @Autowired
-  private SecretsManagerService secretsManagerService;
+  private Environment environment;
 
   private static final String[] AUTH_WHITE_LIST = {
           "/v3/api-docs/**",
           "/swagger-ui/**"
   };
+
   @Bean
   public JwtDecoder jwtDecoder() {
 //    System.out.println(jwtSecret + "---------------------------------------------------------");
-    String svalue = secretsManagerService.getSecret("intern_manjiri_jwt_secret");
-    byte[] decodedKey = svalue.getBytes();
+//    String secretValue = secretsManagerService.getSecret("intern_manjiri_jwt_secret","intern_jwt_secret");
+//    String dbPassword = secretsManagerService.getSecret("intern_manjiri_jwt_secret","db_password");
+    byte[] decodedKey = secret.getBytes();
     SecretKey secretKey = new SecretKeySpec(decodedKey, "HMacSHA512");
 //    SecretKey key = new SecretKeySpec(keyBytes, 0, keyBytes.length, "HmacSHA512")
     return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS512).build();
