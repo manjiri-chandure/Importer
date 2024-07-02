@@ -1,13 +1,9 @@
 package com.importer.importer.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 import software.amazon.awssdk.services.secretsmanager.model.GetSecretValueRequest;
@@ -49,10 +45,12 @@ public class SecretsManagerService {
 
         GetSecretValueResponse getSecretValueResponse = secretsManagerClient.getSecretValue(getSecretValueRequest);
         String secretValue = getSecretValueResponse.secretString();
+        System.out.println(secretValue + "--------------------------------------------------------");
         String jwtSecret = null;
         try {
             // Convert JSON string to Map
             Map map = objectMapper.readValue(secretValue, Map.class);
+            System.out.println(map + "999999999999999999999999999999999999999999999999999999999999999");
 
             // Retrieve the value corresponding to the key "intern_jwt_secret"
             jwtSecret = (String) map.get(secretKey);

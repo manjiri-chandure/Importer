@@ -25,8 +25,8 @@ import javax.crypto.spec.SecretKeySpec;
 @EnableMethodSecurity()
 public class SecurityConfig {
 
-  @Value("${jwt.secret}")
-  private String secret;
+//  @Value("${jwt.secret}")
+//  private String secret;
 
 //  @Value("${intern_jwt_secret}")
 //  private String jwtSecret;

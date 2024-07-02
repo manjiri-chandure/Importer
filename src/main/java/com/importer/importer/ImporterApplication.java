@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @MapperScan("com.importer.importer.repository")
-@EnableTransactionManagement
+//@EnableTransactionManagement
 public class ImporterApplication {
 
 	public static void main(String[] args) {
@@ -19,7 +19,6 @@ public class ImporterApplication {
 //		application.addListeners(new PropertiesListener());
 //		application.run(args);
 		SpringApplication.run(ImporterApplication.class, args);
-
 	}
 
 }
