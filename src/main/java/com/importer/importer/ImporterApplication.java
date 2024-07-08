@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class ImporterApplication {
 
 	public static void main(String[] args) {
-//		SpringApplication application = new SpringApplication(ImporterApplication.class);
-//		application.setAdditionalProfiles("dev");
-//		application.run(args);
-		SpringApplication.run(ImporterApplication.class, args);
+		SpringApplication application = new SpringApplication(ImporterApplication.class);
+		application.addListeners(new PropertiesListner());
+		application.run(args);
+		//SpringApplication.run(ImporterApplication.class, args);
 	}
 
 }
