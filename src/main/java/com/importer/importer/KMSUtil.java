@@ -1,6 +1,4 @@
 package com.importer.importer;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
@@ -12,7 +10,6 @@ import software.amazon.awssdk.services.kms.model.DecryptResponse;
 import software.amazon.awssdk.services.kms.model.EncryptRequest;
 import software.amazon.awssdk.services.kms.model.EncryptResponse;
 
-import java.sql.SQLOutput;
 import java.util.Base64;
 
 @Component
@@ -33,7 +30,6 @@ public class KMSUtil {
   }
 
   public String kmsDecrypt(String base64EncodedValue){
-    System.out.println("ok================================================");
     DecryptRequest decryptRequest = buildDecryptRequest( base64EncodedValue );
     DecryptResponse decryptResponse = this.kmsClient.decrypt(decryptRequest);
     return decryptResponse.plaintext().asUtf8String();
