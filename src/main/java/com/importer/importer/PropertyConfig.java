@@ -23,7 +23,7 @@ public class PropertyConfig {
     private KMSUtil kmsUtil;
 
     @PostConstruct
-    public void setProperty() {
+    public void setProperties() {
 
         if(checkPropertyIsEncrypted(databasePassword)){
             databasePassword = decryptEncryptedProperty(databasePassword);
