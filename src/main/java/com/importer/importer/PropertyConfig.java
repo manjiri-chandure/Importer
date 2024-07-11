@@ -25,28 +25,21 @@ public class PropertyConfig {
     @PostConstruct
     public void setProperties() {
 
-        if(checkPropertyIsEncrypted(databasePassword)){
-            databasePassword = decryptEncryptedProperty(databasePassword);
-        }
-
-        if(checkPropertyIsEncrypted(jwtSecret)){
-            jwtSecret = decryptEncryptedProperty(jwtSecret);
-        }
+        databasePassword = decryptIfPropertyIsEncrypted(databasePassword);
+        jwtSecret = decryptIfPropertyIsEncrypted(jwtSecret);
 
         Properties props = new Properties();
-        //properties get replace here
         props.put("spring.datasource.password", databasePassword);
         props.put("jwt.secret",jwtSecret);
         env.getPropertySources().addFirst(new PropertiesPropertySource("customProperty", props));
    }
 
-    private boolean checkPropertyIsEncrypted(String property) {
-        return property.startsWith("ENC(") & property.endsWith(")");
-    }
-
-    private String decryptEncryptedProperty(String property) {
-        String encryptedProperty = property.substring(4, property.length()-1);//last character ')' get excluded
-        return kmsUtil.kmsDecrypt(encryptedProperty);
+    private String decryptIfPropertyIsEncrypted(String property) {
+        if(property.startsWith("ENC(") & property.endsWith(")")){
+            String encryptedProperty = property.substring(4, property.length()-1);//last character ')' get excluded
+            return kmsUtil.kmsDecrypt(encryptedProperty);
+        }
+        return property;
     }
 
 }
