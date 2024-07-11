@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.PropertiesPropertySource;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Configuration
 public class PropertyConfig {
@@ -22,6 +24,10 @@ public class PropertyConfig {
     @Autowired
     private KMSUtil kmsUtil;
 
+    private static final String encryptionExpression = "^ENC\\(.*\\)$";
+
+    private static final Pattern encryptionPattern = Pattern.compile(encryptionExpression);
+
     @PostConstruct
     public void setProperties() {
 
@@ -35,7 +41,8 @@ public class PropertyConfig {
    }
 
     private String decryptIfPropertyIsEncrypted(String property) {
-        if(property.startsWith("ENC(") & property.endsWith(")")){
+
+        if(encryptionPattern.matcher(property).matches()){
             String encryptedProperty = property.substring(4, property.length()-1);//last character ')' get excluded
             return kmsUtil.kmsDecrypt(encryptedProperty);
         }
